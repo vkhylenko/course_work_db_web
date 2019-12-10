@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    article{
+    margin-top: 30px;
+    font-size: 20px;
+    }
+
+    section{
+        background: rgba(245, 245, 245, 0.548);
+        margin-bottom: 10px;
+    }
+    input {
+        width: 50%;
+        display: block;
+        margin-right: auto;
+        margin-left: auto;
+    }
+</style>
+<article>
+    World ski resorts<br><br>
+    When it comes to skiing, the proximity, soft snow and dusty mountains of well-known European 
+    and North America destinations are hard to beat – but once in a while it’s worth looking 
+    a little further afield.
+    If you want adventure as well as great skiing conditions, 
+    we’ve gathered some places with enough snowfall, slopes and ski facilities 
+    to rival Europe’s and America's top locations. Some can even offer better value for money too. 
+    If you’re looking at planning a ski trip outside of Europe, but don’t even know where to start, 
+    let us be your guide.<br><br>
+    All Ski Pass prices are available from <time datetime="2019-01-01">January 1st, 2019</time>.
+</article>
+
+<form class="choose" action="URL" method="post" novalidate>
+    <select name="countries">
+        <option selected="selected">What country do you want travel to?</option>
+        <option value="New Zealand">New Zealand</option>
+        <option value="Japan">Japan</option>
+        <option value="Australia">Australia</option>
+        <option value="Kazakhstan">Kazakhstan</option>
+        <option value="Lebanon">Lebanon</option>
+        <option value="South Korea">South Korea</option>
+        <option value="Russia">Russia</option>
+    </select>
+    <p><input type="submit" value="Go"></p>
+</form>
+<section>
+    {{ table }}
+</section>
+{% endblock %}

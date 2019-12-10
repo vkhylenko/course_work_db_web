@@ -1,0 +1,33 @@
+<html lang="en">
+    <head>
+        {% if title %}
+        <title>{{ title }}</title>
+        {% else %}
+        <title>Ski Resorts</title>
+        {% endif %}
+        <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
+    </head>
+    <body>
+        <header>
+            <nav class="menu">
+                <ul>
+                    <li><a href="/index">Main</a></li>
+                    <li>
+                        <a href="#">Ski Resorts</a>
+                        <ul >
+                            <li><a href="/namerica" >North America</a></li>
+                            <li><a href="/samerica">South America</a></li>
+                            <li><a href="/europe">Europe</a></li>
+                            <li><a href="/othworld">Other World</a></li>
+                        </ul>
+                    </li>
+                    <li><img width="100%" height="50px" src="{{ url_for('static', filename='images/pow.png') }}" alt=""></li>
+                    <li><a href="/login">Registration</a></li>
+                    <li><a href="/finder">Resorts Finder</a></li>
+
+                </ul>
+            </nav>
+        </header>
+        {% block content %} {% endblock %}
+    </body>
+</html>

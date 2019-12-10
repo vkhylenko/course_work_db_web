@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+    .holder {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        /* font-size: 20px; */
+        width: 60%;
+        flex-flow: column wrap;
+        /* align-items: center; */
+        background-color: rgba(245, 245, 245, 0.68);
+        border-radius: 2%;
+        padding: 10px 50px;
+    }
+    figure{
+        text-align: center;
+    }
+
+    figcaption{
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
+    }
+    table{
+        height: 1%;
+    }
+</style>
+
+<div class="holder">
+
+    <h1 class="resort_name">{{ data[0].name }}  {{ data[0].country }}</h1>
+    <!-- <h1 class="country">{{ data[0].country }}</h1> -->
+    <h1 class="altitude">{{ data[0].altitude }}</h1>
+
+    <table>
+            <tr align="left">
+                <td style="background:transparent;">
+                    <figure>
+                        <a style = "background: transparent;"><img style="width: 120px; height: 120px;" src="{{ url_for('static', filename='images/g1.png') }}">
+                            <figcaption class "num">{{ lifts[0].gondola }}</figcaption></a>
+                    </figure>
+                </td>
+                <td style="background:transparent;">
+                    <figure>
+                        <a style = "background: transparent;"><img style="width: 120px; height: 120px;" src="{{ url_for('static', filename='images/c1.png') }}">
+                            <figcaption class "num">{{ lifts[0].chairlift }}</figcaption></a>
+                    </figure>
+                </td>
+                <td style="background:transparent;">
+                    <figure>
+                        <a style = "background: transparent;"><img style="width: 120px; height: 120px;" src="{{ url_for('static', filename='images/p1.png') }}">
+                            <figcaption class "num">{{ lifts[0].platter }}</figcaption></a>
+                    </figure>
+                </td>
+            </tr>
+        </table>
+
+        <div class="pistes">
+            <img style="width: 31px; height: 31px;" align="left" src="{{ url_for('static', filename='images/blue.png') }}">
+                <p>{{ piste[0].easy }} km</p>
+            <img style="width: 30px; height: 30px;" align="left" src="{{ url_for('static', filename='images/red.png') }}">
+                <p>{{ piste[0].intermediate }} km</p>
+            <img style="width: 31px; height: 31px;" align="left" src="{{ url_for('static', filename='images/bl.png') }}">
+                <p>{{ piste[0].difficult }} km</p>
+        </div>
+
+        <div class="cost">
+            <h2>Ski-Pass Cost</h2>
+            <h2>Currency: {{ curr[0].currency }}</h2>
+            <h3>Adult: {{ curr[0].adult }}</h3>
+            <h3>Youth: {{ curr[0].youth }}</h3>
+            <h3>Child: {{ curr[0].child }}</h3>
+
+        </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    article{
+    margin-top: 30px;
+    font-size: 20px;
+    }
+
+    section{
+        background: rgba(245, 245, 245, 0.548);
+        margin-bottom: 10px;
+    }
+    input {
+        width: 50%;
+        display: block;
+        margin-right: auto;
+        margin-left: auto;
+    }
+</style>
+<article>
+    North America ski resorts<br><br>
+    In North America, you can look forward to 15,275 kilometres of slopes: 
+    the ski resorts are served by 3,537 ski lifts. Have lots of fun skiing in North America! 
+    North America is host to some of the best Ski resorts in the world. 
+    With over 800 resorts to choose from in North America alone, one could spend weeks, 
+    even months mauling over data to make a decision; and of course, by then, 
+    all the good snow would be gone.<br><br>
+    All Ski Pass prices are available from <time datetime="2019-01-01">January 1st, 2019</time>.
+</article>
+
+<form class="choose" action="URL" method="post" novalidate>
+    <select name="countries">
+        <option selected="selected">What country do you want travel to?</option>
+        <option value="USA">USA</option>
+        <option value="Canada">Canada</option>
+    </select>
+    <p><input type="submit" value="Go"></p>
+</form>
+<section>
+    {{ table }}
+</section>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    article{
+        margin-top: 30px;
+        font-size: 30px;
+    }
+
+    h1{
+        font-size: 15px;
+        color: #191970;
+        text-align: center;
+    }
+
+    .msg {
+	text-align: center;
+	color: #8B0000;
+    }
+
+    </style>
+    <article>
+        Welcome back!
+    </article>
+    <h1 class "msg">{{msg}}</h1>
+    <form class="contact_form", action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.nickname.label }}<br>
+            {{ form.nickname(size=32) }}
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}
+        </p>
+        <p style = "font-size: 15px; "">{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+        
+        <p>{{ form.submit() }}</p>
+        <h1><a style = "background: transparent; color: #191970;padding: 0px 40px;line-height: 50px;display: block;" href="/auth">Dont have acc? Registr!</a></h1>
+    </form>
+{% endblock %}

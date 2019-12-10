@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    article{
+    margin-top: 30px;
+    font-size: 20px;
+    }
+</style>
+<article>
+    You can find perfect resort!
+</article>
+
+<form class="choose" action="URL" method="post" novalidate>
+<select name="category">
+    <option selected="selected">Choose category!</option>
+    <option value="europe">Europe</option>
+    <option value="namerica">North America</option>
+    <option value="samerica">South America</option>
+    <option value="othworld">Other World</option>
+    <option value="any">Any</option>
+</select>
+
+<select name="altitude">
+    <option selected="selected">Choose min altitude!</option>
+    <option value="1">More than 3000</option>
+    <option value="2">More than 2000</option>
+    <option value="3">Any</option>
+</select>
+
+<select name="hardness">
+    <option selected="selected">Choose your level!</option>
+    <option value="exp">For expert</option>
+    <option value="beg">For beginners</option>
+    <option value="an">Any</option>
+</select>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    article{
+    margin-top: 30px;
+    font-size: 30px;
+    }
+
+    h1{
+        font-size: 15px;
+        color: #191970;
+        text-align: center;
+    }
+</style>
+<article>
+    New user? Create tour account! 
+</article>
+<form class="contact_form", action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.nickname.label }}<br>
+            {{ form.nickname(size=32) }}
+        </p>
+
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}
+        </p>
+        <p>
+            {{ form.rpt_pass.label }}<br>
+            {{ form.rpt_pass(size=32) }}
+        </p>
+        <p>{{ form.submit() }}</p>
+
+</form>
+{% endblock %}

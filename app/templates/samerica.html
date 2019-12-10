@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    article{
+    margin-top: 30px;
+    font-size: 20px;
+    }
+
+    section{
+        background: rgba(245, 245, 245, 0.548);
+        margin-bottom: 10px;
+    }
+    input {
+        width: 50%;
+        display: block;
+        margin-right: auto;
+        margin-left: auto;
+    }
+</style>
+<article>
+    South America ski resorts<br><br>
+    At the southernmost tip of South America, Chile and Argentina are dramatic places punctuated
+    by craggy mountains, sparkling with sandy coastlines and rippling with turquoise lakes and 
+    lush forests. There is no bad time to visit, but make a trip from June through September and 
+    the snow-capped, volcanic Andes that dip and soar along their shared border are blanketed with snow, 
+    their powder-coated slopes offering some of the best skiing in the world.<br><br>
+    All Ski Pass prices are available from <time datetime="2019-01-01">January 1st, 2019</time>.
+</article>
+
+<form class="choose" action="URL" method="post" novalidate>
+    <select name="countries">
+        <option selected="selected">What country do you want travel to?</option>
+        <option value="Chile">Chile</option>
+        <option value="Argentina">Argentina</option>
+    </select>
+    <p><input type="submit" value="Go"></p>
+</form>
+
+<section>
+        {{ table }}
+</section>
+{% endblock %}
