@@ -6,26 +6,44 @@
     margin-top: 30px;
     font-size: 20px;
     }
+
+    section{
+        background: rgba(245, 245, 245, 0.548);
+        margin-bottom: 10px;
+        display: block;        
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+    .choose select{
+        width: 300px;
+    }
+    input{
+        height: 40px;
+        width: 50px;
+        border: 2px solid rgb(224, 220, 220);
+        display: block;   
+        margin-left: auto;
+        margin-right: auto;
+    }
 </style>
 <article>
     You can find perfect resort!
 </article>
 
-<form class="choose" action="URL" method="post" novalidate>
+<form class="choose" action="{{ url_for('finder_res') }}" method="POST">
 <select name="category">
     <option selected="selected">Choose category!</option>
     <option value="europe">Europe</option>
-    <option value="namerica">North America</option>
-    <option value="samerica">South America</option>
-    <option value="othworld">Other World</option>
-    <option value="any">Any</option>
+    <option value="North America">North America</option>
+    <option value="South America">South America</option>
+    <option value="Other World">Other World</option>
 </select>
 
 <select name="altitude">
     <option selected="selected">Choose min altitude!</option>
-    <option value="1">More than 3000</option>
-    <option value="2">More than 2000</option>
-    <option value="3">Any</option>
+    <option value="3000">More than 3000</option>
+    <option value="2000">More than 2000</option>
+    <option value="1">Any</option>
 </select>
 
 <select name="hardness">
@@ -34,4 +52,12 @@
     <option value="beg">For beginners</option>
     <option value="an">Any</option>
 </select>
+
+<p><input type="submit" value="Go"></p>
+</form>
+
+<section>
+        {{ table }}
+</section>
+
 {% endblock %}

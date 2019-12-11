@@ -28,3 +28,10 @@ class ResultsO(Table):
     name = LinkCol("Name Location", endpoint="othworld", url_kwargs=dict(id_='id'), attr='name')
     country = Col('Country')
     altitude = Col('Altitude')
+
+class Finder(Table):
+    id = Col('Id', show=False)
+    #name = Col('Ski Resort')
+    name = LinkCol("Name Location", endpoint="finder_res", url_kwargs=dict(id_='id'), attr='name')
+    country = Col('Country')
+    altitude = Col('Altitude')
