@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles_details.css') }}">
+{% endblock %}
 {% block content %}
 
 <style>
@@ -27,15 +31,33 @@
     table{
         height: 1%;
     }
+    
+    h1{
+        font-family: helvetica;
+        color: #0f0f46;
+    }
+    h2{
+        font-family: helvetica;
+        font-size: 20px;
+        color: #0f0f46;
+    }
+
+    
 </style>
 
 <div class="holder">
-
-    <h1 class="resort_name">{{ data[0].name }}  {{ data[0].country }}</h1>
-    <!-- <h1 class="country">{{ data[0].country }}</h1> -->
-    <h1 class="altitude">{{ data[0].altitude }}</h1>
-
-    <table>
+    {% if au == True %}
+        {% if fav_resort.fav_resort == data[0].id %}
+            <p class="fav_resort">Your fav resort!</p>
+        {% else %}
+            <form action="" method="post">
+                {{ form.hidden_tag() }}
+                {{ form.submit() }}
+            </form>
+        {% endif %}
+    {% endif %}
+    <h1 class="resort_name">Resort "{{ data[0].name }}" in {{ data[0].country }}</h1>
+     <table>
             <tr align="left">
                 <td style="background:transparent;">
                     <figure>
@@ -68,14 +90,13 @@
         </div>
 
         <div class="cost">
-            <h2>Ski-Pass Cost</h2>
+            <h2 style="font-size: 23 px;"><br>Ski-Pass Cost</h2>
             <h2>Currency: {{ curr[0].currency }}</h2>
             <h3>Adult: {{ curr[0].adult }}</h3>
             <h3>Youth: {{ curr[0].youth }}</h3>
             <h3>Child: {{ curr[0].child }}</h3>
 
         </div>
-
 </div>
 
 {% endblock %}

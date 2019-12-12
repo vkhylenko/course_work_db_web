@@ -12,19 +12,23 @@
     }
 
     a{
-        background: transparent;
+        
         color: #191970;
         margin-top: 0px;
         text-align: right;
     }
 </style>
-<a href="{{ url_for('logout') }}">Logout</a>
+<a style="width: 50px; " href="{{ url_for('logout') }}">Logout</a>
 
 <article>
     Planning a ski trip, {{current_user.nickname }}? Choose where you want to go!
+    {% if fav_resort %}
+        <p>You carrent favourite resort is {{ fav_resort[0].name }}</p>
+    {% endif %}
 </article>
 <section>
-        <!--<h1>Hi, {{ current_user.nickname }}!</h1>-->
+    
+
     <table >
         <tr align="left">
             <td style="background:transparent;">

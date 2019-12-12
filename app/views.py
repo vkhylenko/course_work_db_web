@@ -1,7 +1,7 @@
 from app import app
 from app import db
 from flask import render_template, url_for, redirect, flash, request
-from app.forms import LoginForm, RegForm
+from app.forms import LoginForm, RegForm, FavResort
 from flask_login import logout_user
 from flask_login import current_user, login_user
 from app.models import User, SkiResort, CategoryCountry, Countries, CurrencyType
@@ -15,7 +15,8 @@ def index():
 
 @app.route('/index_log')
 def index_log():
-    return render_template('index_log.html', title='Home')
+    fav = User.query.join(SkiResort, SkiResort.id == User.fav_resort).add_columns(SkiResort.name, SkiResort.id, User.fav_resort).all()
+    return render_template('index_log.html', title='Home', fav_resort = fav)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -54,9 +55,10 @@ def logout():
     logout_user()
     return redirect(url_for('index', _external=True))
 
-@app.route('/europe')
+@app.route('/europe', methods=['GET', 'POST'])
 def europe():
     if len(request.args.get('id_', '')) > 0:
+
         id = int(request.args['id_'])
         res = SkiResort.query.join(Countries, SkiResort.country_category==Countries.id).join(CategoryCountry, Countries.category_id==CategoryCountry.id)\
             .add_columns(Countries.country, SkiResort.name, SkiResort.altitude).filter(SkiResort.id == id).all()
@@ -67,8 +69,17 @@ def europe():
         piste = SkiResort.query.add_columns(SkiResort.easy, SkiResort.intermediate, SkiResort.difficult).filter(SkiResort.id == id).all()
 
         lifts = SkiResort.query.add_columns(SkiResort.gondola, SkiResort.chairlift, SkiResort.platter).filter(SkiResort.id == id).all()
-        
-        return render_template('resort_details.html', data = res, curr = mon, piste = piste, lifts = lifts)
+        if current_user.is_authenticated:
+            fav_resort = User.query.filter(User.id == current_user.id).first()
+            form = FavResort()
+            au = True
+            if form.validate_on_submit():
+                fav_resort.fav_resort = id
+                db.session.commit()
+                return redirect(url_for('index_log'))
+            return render_template('resort_details.html', data = res, curr = mon, piste = piste, lifts = lifts, form = form, fav_resort = fav_resort, au = au)
+        au = False
+        return render_template('resort_details.html', data = res, curr = mon, piste = piste, lifts = lifts, au = au)
 
     eu = SkiResort.query.join(Countries, SkiResort.country_category==Countries.id).join(CategoryCountry, Countries.category_id==CategoryCountry.id).add_columns(SkiResort.id, Countries.country).add_columns(SkiResort.name).add_columns(SkiResort.altitude).filter(CategoryCountry.category == 'Europe').all()
     table = ResultsE(eu)
@@ -79,6 +90,7 @@ def europe():
 @app.route('/namerica')
 def namerica():
     if len(request.args.get('id_', '')) > 0:
+
         id = int(request.args['id_'])
         res = SkiResort.query.join(Countries, SkiResort.country_category==Countries.id).join(CategoryCountry, Countries.category_id==CategoryCountry.id)\
             .add_columns(Countries.country, SkiResort.name, SkiResort.altitude).filter(SkiResort.id == id).all()
@@ -89,16 +101,25 @@ def namerica():
         piste = SkiResort.query.add_columns(SkiResort.easy, SkiResort.intermediate, SkiResort.difficult).filter(SkiResort.id == id).all()
 
         lifts = SkiResort.query.add_columns(SkiResort.gondola, SkiResort.chairlift, SkiResort.platter).filter(SkiResort.id == id).all()
-        
-        return render_template('resort_details.html', data = res, curr = mon, piste = piste, lifts = lifts)
+        if current_user.is_authenticated:
+            fav_resort = User.query.join(SkiResort, SkiResort.id == User.fav_resort).add_columns(SkiResort.name, SkiResort.id).filter(User.id == current_user.id).first()
+            form = FavResort()
+            au = True
+            if form.validate_on_submit():
+                fav_resort.fav_resort = id
+                db.session.commit()
+                return redirect(url_for('index_log'))
+            return render_template('resort_details.html', data = res, curr = mon, piste = piste, lifts = lifts, form = form, fav_resort = fav_resort, au = au)
+        au = False
+        return render_template('resort_details.html', data = res, curr = mon, piste = piste, lifts = lifts, au = au)
     na = SkiResort.query.join(Countries, SkiResort.country_category==Countries.id).join(CategoryCountry, Countries.category_id==CategoryCountry.id).add_columns(SkiResort.id, Countries.country).add_columns(SkiResort.name).add_columns(SkiResort.altitude).filter(CategoryCountry.category == 'North America').all()
-    sort = request.args.get('sort', '', type=str)
     table = ResultsN(na)
     return render_template('namerica.html', title='North America', table = table)
 
 @app.route('/samerica')
 def samerica():
     if len(request.args.get('id_', '')) > 0:
+
         id = int(request.args['id_'])
         res = SkiResort.query.join(Countries, SkiResort.country_category==Countries.id).join(CategoryCountry, Countries.category_id==CategoryCountry.id)\
             .add_columns(Countries.country, SkiResort.name, SkiResort.altitude).filter(SkiResort.id == id).all()
@@ -109,8 +130,17 @@ def samerica():
         piste = SkiResort.query.add_columns(SkiResort.easy, SkiResort.intermediate, SkiResort.difficult).filter(SkiResort.id == id).all()
 
         lifts = SkiResort.query.add_columns(SkiResort.gondola, SkiResort.chairlift, SkiResort.platter).filter(SkiResort.id == id).all()
-        
-        return render_template('resort_details.html', data = res, curr = mon, piste = piste, lifts = lifts)
+        if current_user.is_authenticated:
+            fav_resort = User.query.join(SkiResort, SkiResort.id == User.fav_resort).add_columns(SkiResort.name, SkiResort.id).filter(User.id == current_user.id).first()
+            form = FavResort()
+            au = True
+            if form.validate_on_submit():
+                fav_resort.fav_resort = id
+                db.session.commit()
+                return redirect(url_for('index_log'))
+            return render_template('resort_details.html', data = res, curr = mon, piste = piste, lifts = lifts, form = form, fav_resort = fav_resort, au = au)
+        au = False
+        return render_template('resort_details.html', data = res, curr = mon, piste = piste, lifts = lifts, au = au)
     sa = SkiResort.query.join(Countries, SkiResort.country_category==Countries.id).join(CategoryCountry, Countries.category_id==CategoryCountry.id).add_columns(SkiResort.id, Countries.country).add_columns(SkiResort.name).add_columns(SkiResort.altitude).filter(CategoryCountry.category == 'South America').all()
     table = ResultsS(sa)
     return render_template('samerica.html', title='South America', table = table)
@@ -118,6 +148,7 @@ def samerica():
 @app.route('/othworld')
 def othworld():
     if len(request.args.get('id_', '')) > 0:
+
         id = int(request.args['id_'])
         res = SkiResort.query.join(Countries, SkiResort.country_category==Countries.id).join(CategoryCountry, Countries.category_id==CategoryCountry.id)\
             .add_columns(Countries.country, SkiResort.name, SkiResort.altitude).filter(SkiResort.id == id).all()
@@ -128,8 +159,17 @@ def othworld():
         piste = SkiResort.query.add_columns(SkiResort.easy, SkiResort.intermediate, SkiResort.difficult).filter(SkiResort.id == id).all()
 
         lifts = SkiResort.query.add_columns(SkiResort.gondola, SkiResort.chairlift, SkiResort.platter).filter(SkiResort.id == id).all()
-        
-        return render_template('resort_details.html', data = res, curr = mon, piste = piste, lifts = lifts)
+        if current_user.is_authenticated:
+            fav_resort = User.query.join(SkiResort, SkiResort.id == User.fav_resort).add_columns(SkiResort.name, SkiResort.id).filter(User.id == current_user.id).first()
+            form = FavResort()
+            au = True
+            if form.validate_on_submit():
+                fav_resort.fav_resort = id
+                db.session.commit()
+                return redirect(url_for('index_log'))
+            return render_template('resort_details.html', data = res, curr = mon, piste = piste, lifts = lifts, form = form, fav_resort = fav_resort, au = au)
+        au = False
+        return render_template('resort_details.html', data = res, curr = mon, piste = piste, lifts = lifts, au = au)
     ow = SkiResort.query.join(Countries, SkiResort.country_category==Countries.id).join(CategoryCountry, Countries.category_id==CategoryCountry.id).add_columns(SkiResort.id, Countries.country).add_columns(SkiResort.name).add_columns(SkiResort.altitude).filter(CategoryCountry.category == 'Other World').all()
     table = ResultsO(ow)
     return render_template('othworld.html', title='Other World', table = table)
@@ -144,6 +184,7 @@ def finder():
 @app.route('/finder/finder_res', methods=['GET', 'POST'])
 def finder_res():
     if len(request.args.get('id_', '')) > 0:
+
         id = int(request.args['id_'])
         res = SkiResort.query.join(Countries, SkiResort.country_category==Countries.id).join(CategoryCountry, Countries.category_id==CategoryCountry.id)\
             .add_columns(Countries.country, SkiResort.name, SkiResort.altitude).filter(SkiResort.id == id).all()
@@ -154,8 +195,17 @@ def finder_res():
         piste = SkiResort.query.add_columns(SkiResort.easy, SkiResort.intermediate, SkiResort.difficult).filter(SkiResort.id == id).all()
 
         lifts = SkiResort.query.add_columns(SkiResort.gondola, SkiResort.chairlift, SkiResort.platter).filter(SkiResort.id == id).all()
-        
-        return render_template('resort_details.html', data = res, curr = mon, piste = piste, lifts = lifts)
+        if current_user.is_authenticated:
+            fav_resort = User.query.join(SkiResort, SkiResort.id == User.fav_resort).add_columns(SkiResort.name, SkiResort.id).filter(User.id == current_user.id).first()
+            form = FavResort()
+            au = True
+            if form.validate_on_submit():
+                fav_resort.fav_resort = id
+                db.session.commit()
+                return redirect(url_for('index_log'))
+            return render_template('resort_details.html', data = res, curr = mon, piste = piste, lifts = lifts, form = form, fav_resort = fav_resort, au = au)
+        au = False
+        return render_template('resort_details.html', data = res, curr = mon, piste = piste, lifts = lifts, au = au)
     
     if request.method == 'POST':
         selectc = request.form.get('category')
