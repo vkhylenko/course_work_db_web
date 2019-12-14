@@ -47,7 +47,7 @@
 
 <div class="holder">
     {% if au == True %}
-        {% if fav_resort.fav_resort == data[0].id %}
+        {% if fav_resort.fav_resort == data[0].id  %}
             <p class="fav_resort">Your fav resort!</p>
         {% else %}
             <form action="" method="post">
@@ -57,7 +57,7 @@
         {% endif %}
     {% endif %}
     <h1 class="resort_name">Resort "{{ data[0].name }}" in {{ data[0].country }}</h1>
-     <table>
+    <table>
             <tr align="left">
                 <td style="background:transparent;">
                     <figure>
